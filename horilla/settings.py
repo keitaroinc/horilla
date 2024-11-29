@@ -141,6 +141,11 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google"
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google"
 ]
 
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
@@ -229,6 +234,21 @@ MESSAGE_TAGS = {
 LOGIN_URL = os.getenv("LOGIN_URL", "/login")
 
 SITE_ID = 1
+
+SOCIALACCOUNT_ADAPTER = "horilla.social_adapter.SocialAccountAdapter"
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': 'client_id',
+            'secret': 'secret',
+        },
+        'SCOPE': ['openid', 'email', 'profile'],
+        'AUTH_PARAMS': {'access_type': 'offline', 'prompt': 'select_account',},
+    }
+}
 
 SOCIALACCOUNT_ADAPTER = "horilla.social_adapter.SocialAccountAdapter"
 
