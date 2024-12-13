@@ -7541,33 +7541,3 @@ def get_domains(request):
     if request.method == 'GET':
         domains = AllowedDomains.objects.values_list('domains', flat=True).first()
         return JsonResponse({"domains": domains}, status=200)
-
-def protected_media(request, path):
-    page_urls = [
-        "/login",
-        "/forgot-password",
-        "/change-username",
-        "/change-password",
-        "/employee-reset-password",
-        "/recruitment/candidate-survey",
-        "/recruitment/open-recruitments",
-        "/recruitment/candidate-self-status-tracking",
-    ]
-
-    exempted_folders = ["base/icon/"]
-
-    media_path = os.path.join(settings.MEDIA_ROOT, path)
-    if not os.path.exists(media_path):
-        raise Http404("File not found")
-
-    referer = urlparse(request.META.get("HTTP_REFERER", ""))
-    referer_path = referer.path
-
-    if referer_path not in page_urls and not any(
-        path.startswith(folder) for folder in exempted_folders
-    ):
-        if not request.user.is_authenticated:
-            messages.error(request, "You must be logged in to access this file.")
-            return redirect("login")
-
-    return FileResponse(open(media_path, "rb"))
