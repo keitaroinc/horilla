@@ -112,6 +112,7 @@ from base.forms import (
     WorkTypeRequestCommentForm,
     WorkTypeRequestForm,
     DomainForm,
+    DomainForm,
 )
 from base.methods import (
     choosesubordinates,
@@ -5487,7 +5488,28 @@ def history_field_settings(request):
     return redirect(general_settings)
 
 @login_required
-@permission_required("horilla_audit.change_accountblockunblock")
+def save_domains(request):
+    if request.method == 'POST':
+        form = DomainForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            existing_instance = AllowedDomains.objects.first()
+            if not instance.domains:
+                if existing_instance:
+                    existing_instance.domains = None
+                    existing_instance.save(update_fields=["domains"])
+                messages.success(request, _("Domains have been cleared"))
+            else:
+                if existing_instance:
+                    existing_instance.domains = instance.domains
+                    existing_instance.save(update_fields=["domains"])
+                else:
+                    instance.save()
+                messages.success(request, _("Saved"))
+        else:
+            messages.error(request, _("An error occured while storing the domains"))
+    return redirect(general_settings)
+
 def enable_account_block_unblock(request):
     if request.method == "POST":
         enabled = request.POST.get("enable_block_account") == "on"
