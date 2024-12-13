@@ -15,6 +15,7 @@ from django.contrib.auth.models import AbstractUser, User
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.db.models import Case, When
 
 from base.horilla_company_manager import HorillaCompanyManager
 from horilla import horilla_middlewares
@@ -567,9 +568,6 @@ class EmployeeShift(HorillaModel):
         super().save(*args, **kwargs)
         self.clean(*args, **kwargs)
         return self
-
-
-from django.db.models import Case, When
 
 
 class EmployeeShiftSchedule(HorillaModel):
