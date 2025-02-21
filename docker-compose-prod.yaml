@@ -43,14 +43,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    depends_on:
-      db:
-        condition: service_healthy
-        required: true
     profiles:
       - migrate
     env_file:
-      - .env.app.local
+      - .env.app.prod
     entrypoint: ["/app/run_migrations.sh"]
 
 volumes:
