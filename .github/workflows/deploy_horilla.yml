@@ -28,7 +28,7 @@ jobs:
 
       - name: Transfer code
         run: |
-          rsync -avz --rsync-path="sudo -u root rsync" --exclude-from=.rsync_ignore . plane_vm@${{ secrets.SSH_HOST }}:~/data/horilla/
+          rsync -avz --rsync-path="sudo -u root rsync" --exclude-from=.rsync_ignore . plane_vm@${{ secrets.SSH_HOST }}:/data/horilla/
       
       - name: Build and run horilla
         run: |
