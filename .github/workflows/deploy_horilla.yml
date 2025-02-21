@@ -34,6 +34,6 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_rsa plane_vm@${{ secrets.SSH_HOST }} << 'EOF'
           cd /data/horilla
-          docker compose -f docker-compose-prod build 
-          docker compose -f docker-compose-dev.yml up -d
+          docker compose -f docker-compose-prod.yaml build 
+          docker compose -f docker-compose-prod.yaml up -d
           EOF
