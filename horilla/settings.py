@@ -25,8 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # General settings
 DEBUG=os.getenv("DEBUG", "false")
 SECRET_KEY=os.getenv("SECRET_KEY")
-ALLOWED_HOSTS=os.getenv("ALLOWED_HOSTS", "*")
-CSRF_TRUSTED_ORIGINS=os.getenv("CSRF_TRUSTED_ORIGINS", "http://localhost:8000")
+ALLOWED_HOSTS=os.getenv((list, ["ALLOWED_HOSTS"]), (list, ["*"]))
+CSRF_TRUSTED_ORIGINS=os.getenv((list, ["CSRF_TRUSTED_ORIGINS"]), (list, ["http://localhost:8000"]))
 TIME_ZONE=os.getenv("TIME_ZONE", "Europe/Stockholm")
 
 # Database credentials
