@@ -30,11 +30,11 @@ jobs:
         run: |
           rsync -avz --rsync-path="sudo -u root rsync" --exclude-from=.rsync_ignore . plane_vm@${{ secrets.SSH_HOST }}:/data/horilla/
       
-      - name: Build and run horilla
-        run: |
-          ssh -i ~/.ssh/id_rsa plane_vm@${{ secrets.SSH_HOST }} << 'EOF'
-          sudo su root
-          cd /data/horilla
-          docker compose -f docker-compose-prod.yaml build 
-          docker compose -f docker-compose-prod.yaml up -d
-          EOF
+      # - name: Build and run horilla
+      #   run: |
+      #     ssh -i ~/.ssh/id_rsa plane_vm@${{ secrets.SSH_HOST }} << 'EOF'
+      #     sudo su root
+      #     cd /data/horilla
+      #     docker compose -f docker-compose-prod.yaml build 
+      #     docker compose -f docker-compose-prod.yaml up -d
+      #     EOF
