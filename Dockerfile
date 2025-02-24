@@ -19,6 +19,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
+VOLUME [ "/app/staticfiles" ]
+
 COPY --from=builder /wheels /wheels
 COPY --from=builder /app /app
 
