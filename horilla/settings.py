@@ -25,17 +25,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # General settings
 DEBUG=os.getenv("DEBUG", "false")
-SECRET_KEY=os.getenv("SECRET_KEY")
+SECRET_KEY=os.getenv("SECRET_KEY", "django-insecure-j8op9)1q8$1&0^s&p*_0%d#pr@w9qj@1o=3#@d=a(^@9@zd@%j")
 ALLOWED_HOSTS=(os.getenv("ALLOWED_HOSTS", "*")).split()
 CSRF_TRUSTED_ORIGINS=(os.getenv("CSRF_TRUSTED_ORIGINS", "http://localhost:8000")).split()
 TIME_ZONE=os.getenv("TIME_ZONE", "Europe/Stockholm")
 
 # Database credentials
-DATABASE_URL=os.getenv("DATABASE_URL")
+DATABASE_URL=os.getenv("DATABASE_URL", "postgres://horilla:password@localhost:5432/horilla_main")
 DB_INIT_PASSWORD=os.getenv("DB_INIT_PASSWORD", "d3f6a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d")
 DATABASES = {
     "default": {
-        "ENGINE": os.getenv("DB_ENGINE", "django.db.backends.sqlite3"),
+        "ENGINE": os.getenv("DB_ENGINE", "django.db.backends.postgresql"),
         "NAME": urlparse(DATABASE_URL).path[1:],
         "USER": urlparse(DATABASE_URL).username,
         "PASSWORD": urlparse(DATABASE_URL).password,
