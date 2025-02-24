@@ -31,6 +31,17 @@ TIME_ZONE=os.getenv("TIME_ZONE", "Europe/Stockholm")
 
 # Database credentials
 DATABASE_URL=os.getenv("DATABASE_URL")
+DB_INIT_PASSWORD=os.getenv("DB_INIT_PASSWORD", "d3f6a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d")
+
+# Aws settings
+AWS_ACCESS_KEY_ID=os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY=os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME=os.getenv("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME=os.getenv("AWS_S3_REGION_NAME")
+DEFAULT_FILE_STORAGE=os.getenv("DEFAULT_FILE_STORAGE")
+AWS_S3_ADDRESSING_STYLE=os.getenv("AWS_S3_ADDRESSING_STYLE")
+NAMESPACE=os.getenv("NAMESPACE", "private")
+
 
 # Application definition
 INSTALLED_APPS = [
