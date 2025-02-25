@@ -176,7 +176,6 @@ from horilla.horilla_settings import (
     FILE_STORAGE,
     NO_PERMISSION_MODALS,
 )
-from horilla.settings import LOGIN_URL
 from horilla.methods import get_horilla_model_class, remove_dynamic_url
 from horilla_audit.forms import HistoryTrackingFieldsForm
 from horilla_audit.models import AccountBlockUnblock, AuditTag, HistoryTrackingFields
@@ -798,8 +797,8 @@ def logout_user(request):
         <script>
             localStorage.clear();
         </script>
-        <meta http-equiv="refresh" content="0;url=%s">
-    """ % LOGIN_URL
+        <meta http-equiv="refresh" content="0;url=https://www.keitaro.com">
+    """
 
     return response
 
