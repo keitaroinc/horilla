@@ -7,7 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-COPY . .
+COPY requirements.txt .
 
 RUN pip wheel --wheel-dir=/wheels --no-cache-dir -r requirements.txt
 
@@ -20,13 +20,13 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-VOLUME [ "/app/staticfiles" ]
-
 COPY --from=builder /wheels /wheels
 COPY --from=builder /app /app
 
 RUN pip install --no-index --find-links=/wheels -r requirements.txt && \
     rm -rf /wheels
+
+COPY . .
 
 EXPOSE 8000
 
