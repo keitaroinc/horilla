@@ -189,7 +189,7 @@ MESSAGE_TAGS = {
     messages.ERROR: "oh-alert--danger",
 }
 
-LOGIN_URL = "/login"
+LOGIN_URL = os.getenv("LOGIN_URL", "/login")
 
 SITE_ID = 1
 
