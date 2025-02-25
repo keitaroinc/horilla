@@ -8,15 +8,13 @@ services:
     restart: unless-stopped
     env_file:
       - .env.app.prod
+    volumes:
+      - /data/horilla/staticfiles:/app/staticfiles
+      - /data/horilla/media:/app/media
     depends_on:
-      # db:
-      #   condition: service_healthy
-      #   required: true
       migrations:
         condition: service_completed_successfully
-        required: false
-    volumes:
-      - /data/staticfiles_horilla:/app/staticfiles
+        required: true
     healthcheck:
       test: ["CMD", "curl", "http://127.0.0.1:8000"]
       interval: 20s
@@ -24,31 +22,10 @@ services:
       retries: 5
       start_period: 30s
 
-  # db:
-  #   image: postgres:17.2
-  #   env_file:
-  #     - .env.db.prod
-  #   ports:
-  #     - "127.0.0.1:5432:5432"
-  #   restart: unless-stopped
-  #   volumes:
-  #     - horilla-data:/var/lib/postgresql/data
-  #   healthcheck:
-  #     test: ["CMD", "pg_isready", "-U", "postgres"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
-  #     start_period: 5s
-  
   migrations:
     build:
       context: .
       dockerfile: Dockerfile
-    profiles:
-      - migrate
     env_file:
       - .env.app.prod
     entrypoint: ["/app/run_migrations.sh"]
-
-volumes:
-  horilla-data:
