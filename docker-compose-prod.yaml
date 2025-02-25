@@ -3,15 +3,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
+    develop:
+      watch:
+        - action: rebuild
+          path: .
     ports:
       - "127.0.0.1:8000:8000"
     restart: unless-stopped
     env_file:
       - .env.app.prod
-    develop:
-      watch:
-        - action: rebuild
-          path: .
     volumes:
       - /app/horilla/staticfiles:/app/staticfiles
       - /data/horilla/media:/app/media
@@ -30,6 +30,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
+    develop:
+      watch:
+        - action: rebuild
+          path: .
     env_file:
       - .env.app.prod
     entrypoint: ["/app/run_migrations.sh"]
@@ -38,6 +42,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
+    develop:
+      watch:
+        - action: rebuild
+          path: .
     depends_on:
       migrations:
         condition: service_completed_successfully
