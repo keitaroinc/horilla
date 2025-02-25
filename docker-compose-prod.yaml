@@ -14,7 +14,7 @@ services:
           path: .
     volumes:
       - /app/horilla/staticfiles:/app/staticfiles
-      - /app/horilla/media:/app/media
+      - /data/horilla/media:/app/media
     depends_on:
       migrations:
         condition: service_completed_successfully
