@@ -2,15 +2,15 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     ports:
       - "127.0.0.1:8000:8000"
     restart: unless-stopped
     env_file:
       - .env.app.prod
     volumes:
-      - /data/horilla/staticfiles:/app/staticfiles
-      - /data/horilla/media:/app/media
+      - /app/horilla/staticfiles:/app/staticfiles
+      - /app/horilla/media:/app/media
     depends_on:
       migrations:
         condition: service_completed_successfully
@@ -25,7 +25,7 @@ services:
   migrations:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     env_file:
       - .env.app.prod
     entrypoint: ["/app/run_migrations.sh"]
@@ -33,13 +33,13 @@ services:
   create_staticfiles:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     depends_on:
       migrations:
         condition: service_completed_successfully
         required: true
     volumes:
-      - /data/horilla/staticfiles:/app/staticfiles
+      - /app/horilla/staticfiles:/app/staticfiles
     env_file:
       - .env.app.prod
     entrypoint: ["/app/create_staticfiles.sh"]
