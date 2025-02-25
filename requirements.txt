@@ -20,6 +20,7 @@ django-haystack
 django-import-export
 django-jsonfield
 django-mathfilters
+django-microsoft-auth
 django-model-utils
 django-simple-history
 django-widget-tweaks
@@ -35,6 +36,7 @@ Jinja2
 idna
 lxml
 numpy
+oauthlib
 openpyxl
 oscrypto
 pandas
