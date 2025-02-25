@@ -15,7 +15,8 @@ RUN pip wheel --wheel-dir=/wheels --no-cache-dir -r requirements.txt
 FROM python:3.12.9-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
 
 WORKDIR /app
 
@@ -25,7 +26,6 @@ COPY --from=builder /wheels /wheels
 COPY --from=builder /app /app
 
 RUN pip install --no-index --find-links=/wheels -r requirements.txt && \
-    python manage.py collectstatic --noinput && \
     rm -rf /wheels
 
 EXPOSE 8000
