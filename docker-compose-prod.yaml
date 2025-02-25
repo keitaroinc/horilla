@@ -29,3 +29,17 @@ services:
     env_file:
       - .env.app.prod
     entrypoint: ["/app/run_migrations.sh"]
+
+  create_staticfiles:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      migrations:
+        condition: service_completed_successfully
+        required: true
+    volumes:
+      - /data/horilla/staticfiles:/app/staticfiles
+    env_file:
+      - .env.app.prod
+    entrypoint: ["/app/create_staticfiles.sh"]

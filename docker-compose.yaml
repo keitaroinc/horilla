@@ -68,6 +68,23 @@ services:
       - .env.app.local
     entrypoint: ["/app/run_migrations.sh"]
 
+  create_staticfiles:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+        required: true
+      migrations:
+        condition: service_completed_successfully
+        required: true
+    volumes:
+      - static-files:/app/staticfiles
+    env_file:
+      - .env.app.local
+    entrypoint: ["/app/create_staticfiles.sh"]
+    
   create_admin_user:
     build:
       context: .
