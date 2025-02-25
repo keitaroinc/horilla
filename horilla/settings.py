@@ -44,6 +44,18 @@ DATABASES = {
     }
 }
 
+# Google authentication settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': os.getenv("GOOGLE_OAUTH_CLIENT_ID", "client_id"),
+            'secret': os.getenv("GOOGLE_OAUTH_SECRET", "secret"),
+        },
+        'SCOPE': ['openid', 'email', 'profile'],
+        'AUTH_PARAMS': {'access_type': 'offline', 'prompt': 'select_account',},
+    }
+}
+
 # Aws settings
 AWS_ACCESS_KEY_ID=os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY=os.getenv("AWS_SECRET_ACCESS_KEY")
@@ -173,17 +185,6 @@ MESSAGE_TAGS = {
 LOGIN_URL = "/login"
 
 SITE_ID = 1
-
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'APP': {
-            'client_id': 'client_id',
-            'secret': 'secret',
-        },
-        'SCOPE': ['openid', 'email', 'profile'],
-        'AUTH_PARAMS': {'access_type': 'offline', 'prompt': 'select_account',},
-    }
-}
 
 SOCIALACCOUNT_ADAPTER = "horilla.social_adapter.SocialAccountAdapter"
 
