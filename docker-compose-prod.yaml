@@ -8,6 +8,10 @@ services:
     restart: unless-stopped
     env_file:
       - .env.app.prod
+    develop:
+      watch:
+        - action: rebuild
+          path: .
     volumes:
       - /app/horilla/staticfiles:/app/staticfiles
       - /app/horilla/media:/app/media
