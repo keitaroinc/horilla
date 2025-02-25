@@ -33,7 +33,7 @@ services:
     image: nginx:alpine
     container_name: nginx
     ports:
-      - "90:80"
+      - "80:80"
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - static-files:/app/staticfiles
