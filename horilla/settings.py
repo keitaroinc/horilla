@@ -59,7 +59,7 @@ SOCIALACCOUNT_PROVIDERS = {
 # Storage configuration
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": os.getenv("STORAGE_BACKEND", "django.core.files.storage.FileSystemStorage"),
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"

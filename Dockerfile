@@ -11,6 +11,7 @@ COPY requirements.txt .
 
 RUN pip wheel --wheel-dir=/wheels --no-cache-dir -r requirements.txt
 
+
 # Main Docker Image
 FROM python:3.12.9-slim
 
@@ -26,8 +27,18 @@ COPY --from=builder /app /app
 RUN pip install --no-index --find-links=/wheels -r requirements.txt && \
     rm -rf /wheels
 
+# Create a local user and group to run the app
+RUN groupadd -g 1007 -r app && \
+    useradd -u 1006 -d /app -M -r -g app app && \
+    mkdir /app/staticfiles && \
+    chown -R app:app /usr/local/lib/python3.12/site-packages
+
 COPY . .
+
+RUN chown -R app:app /app
+
+USER app
 
 EXPOSE 8000
 
-CMD ["gunicorn", "horilla.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "4", "--threads", "2", "--access-logfile", "-", "--error-logfile", "-"]
+CMD ["./entrypoint.sh"]
