@@ -1,4 +1,4 @@
-name: Deploy Horilla
+name: Build and Push Horilla
 
 on:
   workflow_dispatch:
@@ -12,29 +12,39 @@ on:
 
 jobs:
   deploy:
-    environment: dev
+
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Transfer code
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get docker tag for Horilla image
+        id: horilla
         run: |
-          rsync -avz --rsync-path="sudo -u root rsync" --exclude-from=.rsync_ignore . plane_vm@${{ secrets.SSH_HOST }}:/data/horilla/
-      
-      # - name: Build and run horilla
-      #   run: |
-      #     ssh -i ~/.ssh/id_rsa plane_vm@${{ secrets.SSH_HOST }} << 'EOF'
-      #     sudo su root
-      #     cd /data/horilla
-      #     docker compose -f docker-compose-prod.yaml build 
-      #     docker compose -f docker-compose-prod.yaml up -d
-      #     EOF
+          echo "IMAGE_TAG=$(awk -F '=' '/IMAGE_TAG/{print $2}' ./Dockerfile.prod)" >> $GITHUB_OUTPUT
+
+      - name: Build and push Horilla
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile.prod
+          push: true
+          tags: |
+            ghcr.io/keitaroinc/horilla:${{ steps.horilla.outputs.IMAGE_TAG }}
