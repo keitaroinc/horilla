@@ -58,7 +58,7 @@ services:
        POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
        PGDATA: /var/lib/postgresql/data/pgdata
     ports:
-      - "127.0.0.1:5432:5432"
+      - "5432:5432"
     restart: unless-stopped
     volumes:
       - horilla-data:/var/lib/postgresql/pgdata
@@ -104,6 +104,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
+    develop:
+      watch:
+        - action: rebuild
+          path: .
     depends_on:
       db:
         condition: service_healthy

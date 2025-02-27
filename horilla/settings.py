@@ -239,21 +239,6 @@ SOCIALACCOUNT_ADAPTER = "horilla.social_adapter.SocialAccountAdapter"
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'APP': {
-            'client_id': 'client_id',
-            'secret': 'secret',
-        },
-        'SCOPE': ['openid', 'email', 'profile'],
-        'AUTH_PARAMS': {'access_type': 'offline', 'prompt': 'select_account',},
-    }
-}
-
-SOCIALACCOUNT_ADAPTER = "horilla.social_adapter.SocialAccountAdapter"
-
-SOCIALACCOUNT_LOGIN_ON_GET = True
-
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
