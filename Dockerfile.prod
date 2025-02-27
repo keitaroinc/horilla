@@ -1,6 +1,9 @@
 # Builder stage for docker image to build python reqs
 FROM python:3.12.9-slim AS builder
 
+# Used by Github Actions to tag the image with
+ENV IMAGE_TAG=1.0.0
+
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1
