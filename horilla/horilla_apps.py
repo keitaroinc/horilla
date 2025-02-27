@@ -19,7 +19,6 @@ INSTALLED_APPS.append("auditlog")
 INSTALLED_APPS.append("biometric")
 INSTALLED_APPS.append("helpdesk")
 INSTALLED_APPS.append("offboarding")
-INSTALLED_APPS.append("project")
 INSTALLED_APPS.append("horilla_backup")
 
 if settings.AWS_ACCESS_KEY_ID and "storages" not in INSTALLED_APPS:
@@ -56,7 +55,7 @@ SIDEBARS = [
     "offboarding",
     "asset",
     "helpdesk",
-    "project",
 ]
 
 WHITE_LABELLING = False
+NESTED_SUBORDINATE_VISIBILITY = False
