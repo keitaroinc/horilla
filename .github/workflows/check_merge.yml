@@ -5,7 +5,7 @@ on:
     types: [opened]
 
 jobs:
-  check:
+  check_dockerfile:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,8 +14,16 @@ jobs:
 
       - name: Build Horilla dev
         run: |
-          docker compose build 
+          docker build .
 
-      - name: Build Horilla prod
-        run: |
-          docker compose -f docker-compose-prod.yaml build 
+  check_dockerfile_dev:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build Horilla prod
+      run: |
+        docker build -f Dockerfile.dev .

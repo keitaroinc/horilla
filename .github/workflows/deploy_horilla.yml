@@ -1,13 +1,8 @@
 name: Build and Push Horilla
 
 on:
-  workflow_dispatch:
-
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - '*'
+  push:
+    branches: [master]
 
 
 jobs:
