@@ -1,0 +1,23 @@
+name: Check Merge
+
+on:
+  pull_request:
+    types: [opened]
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+
+      - name: Build Horilla dev
+        run: |
+          docker compose build 
+
+      - name: Build Horilla prod
+        run: |
+          docker compose -f docker-compose-prod.yaml build 
