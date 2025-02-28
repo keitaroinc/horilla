@@ -510,6 +510,9 @@ class Candidate(HorillaModel):
         """ """
         return self.get_email()
 
+    def phone(self):
+        return self.mobile
+
     def tracking(self):
         """
         This method is used to return the tracked history of the instance
