@@ -49,4 +49,4 @@ USER app
 
 EXPOSE 8000
 
-CMD ["gunicorn", "horilla.wsgi:application", "--bind", "0.0.0.0:$PORT", "--access-logfile", "-", "--error-logfile", "-"]
+CMD ["sh", "-c", "gunicorn horilla.wsgi:application --bind 0.0.0.0:$PORT --access-logfile - --error-logfile -"]
