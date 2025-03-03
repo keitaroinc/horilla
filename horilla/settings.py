@@ -30,6 +30,10 @@ ALLOWED_HOSTS=(os.getenv("ALLOWED_HOSTS", "*")).split()
 CSRF_TRUSTED_ORIGINS=(os.getenv("CSRF_TRUSTED_ORIGINS", "http://localhost:8000")).split()
 TIME_ZONE=os.getenv("TIME_ZONE", "Europe/Stockholm")
 
+# Route settings enables routes such as /login /admin ...
+ENABLE_ADMIN=eval(os.getenv("ENABLE_ADMIN", True))
+ENABLE_LOGIN=eval(os.getenv("ENABLE_LOGIN", True))
+
 # Database credentials
 DATABASE_URL=os.getenv("DATABASE_URL", "postgres://horilla:password@localhost:5432/horilla_main")
 DB_INIT_PASSWORD=os.getenv("DB_INIT_PASSWORD", "d3f6a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d")
