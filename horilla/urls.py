@@ -14,7 +14,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-import os
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.http import JsonResponse
@@ -45,7 +44,7 @@ urlpatterns = [
     path("health/", health_check),
 ]
 
-if eval(os.getenv('ADMIN_ENABLED', True)):
+if settings.ENABLE_ADMIN:
     urlpatterns.insert(0, path("admin/", admin.site.urls))
 
 if settings.DEBUG:

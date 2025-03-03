@@ -1,4 +1,3 @@
-import os
 from django.contrib.auth.models import Group
 from django.urls import path
 from django.utils.translation import gettext_lazy as _
@@ -35,6 +34,7 @@ from base.models import (
 )
 from base.views import get_domains
 from horilla_audit.models import AuditTag
+from horilla import settings
 
 urlpatterns = [
     path("", views.home, name="home-page"),
@@ -1068,5 +1068,5 @@ urlpatterns = [
     path('api/domains/', get_domains, name='get_domains'),
 ]
 
-if not eval(os.getenv('DISABLE_LOGIN', False)):
+if settings.ENABLE_LOGIN:
     urlpatterns.insert(0, path("login/", views.login_user, name="login"))
