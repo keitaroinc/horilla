@@ -23,7 +23,7 @@ django-mathfilters
 django-model-utils
 django-simple-history
 django-widget-tweaks
-django-storages[s3]
+django-storages[s3] @ git+https://github.com/keitaroinc/django-storages.git@fix-s3-leading-slash
 djangorestframework
 djangorestframework-simplejwt
 drf-yasg

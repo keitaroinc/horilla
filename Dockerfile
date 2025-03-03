@@ -7,6 +7,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git && \
+    rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt .
 
 RUN pip wheel --wheel-dir=/wheels --no-cache-dir -r requirements.txt
@@ -20,6 +24,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1
 
 WORKDIR /app
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /wheels /wheels
 COPY --from=builder /app /app
@@ -41,4 +49,4 @@ USER app
 
 EXPOSE 8000
 
-CMD ["./entrypoint.sh"]
+CMD ["gunicorn", "horilla.wsgi:application", "--bind", "0.0.0.0:$PORT", "--access-logfile", "-", "--error-logfile", "-"]
