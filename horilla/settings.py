@@ -66,7 +66,7 @@ STORAGES = {
         "BACKEND": os.getenv("STORAGE_BACKEND", "django.core.files.storage.FileSystemStorage"),
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"
+        "BACKEND": os.getenv("STORAGE_STATICFILES_BACKEND", "whitenoise.storage.CompressedStaticFilesStorage")
     },
 }
 
