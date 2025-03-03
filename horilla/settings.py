@@ -66,9 +66,40 @@ STORAGES = {
         "BACKEND": os.getenv("STORAGE_BACKEND", "django.core.files.storage.FileSystemStorage"),
     },
     "staticfiles": {
-        "BACKEND": os.getenv("STORAGE_STATICFILES_BACKEND", "whitenoise.storage.CompressedStaticFilesStorage")
+        "BACKEND": os.getenv("STORAGE_STATICFILES_BACKEND", "whitenoise.storage.CompressedStaticFilesStorage"),
     },
 }
+
+# Add the S3 options if the backend for media is S3
+if STORAGES["default"]["BACKEND"] == "storages.backends.s3.S3Storage":
+    MEDIA_S3_OPTIONS = {
+        "default": {
+            "BACKEND": os.getenv("STORAGE_BACKEND", "django.core.files.storage.FileSystemStorage"),
+            "OPTIONS": {
+                "location": "media",
+                "default_acl": "private",
+            },
+        },
+    }
+    STORAGES.update(MEDIA_S3_OPTIONS)
+
+# Add the S3 options if the backend for media is S3
+if STORAGES["staticfiles"]["BACKEND"] == "storages.backends.s3.S3Storage":
+    STATICFILES_S3_OPTIONS = {
+        "staticfiles": {
+            "BACKEND": os.getenv("STORAGE_STATICFILES_BACKEND", "whitenoise.storage.CompressedStaticFilesStorage"),
+            "OPTIONS": {
+                "location": "staticfiles",
+                "gzip": "True",
+                "object_parameters": {
+                    "CacheControl": "max-age=2592000",
+                },
+                "default_acl": "public-read",
+                "querystring_auth": False,
+            },
+        },
+    }
+    STORAGES.update(STATICFILES_S3_OPTIONS)
 
 # Aws settings
 AWS_ACCESS_KEY_ID=os.getenv("AWS_ACCESS_KEY_ID")
