@@ -90,7 +90,7 @@ if STORAGES["staticfiles"]["BACKEND"] == "storages.backends.s3.S3Storage":
             "BACKEND": os.getenv("STORAGE_STATICFILES_BACKEND", "whitenoise.storage.CompressedStaticFilesStorage"),
             "OPTIONS": {
                 "location": "staticfiles",
-                "gzip": "True",
+                "gzip": True,
                 "object_parameters": {
                     "CacheControl": "max-age=2592000",
                 },
