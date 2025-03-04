@@ -25,6 +25,9 @@ services:
       migrations:
         condition: service_completed_successfully
         required: true
+      create-staticfiles:
+        condition: service_completed_successfully
+        required: true
     healthcheck:
       test: ["CMD", "curl", "http://127.0.0.1:8000"]
       interval: 20s
@@ -34,14 +37,15 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: nginx
     ports:
       - "80:80"
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - static-files:/app/staticfiles
     depends_on:
-      - app
+      app:
+        condition: service_healthy
+        required: true
 
   db:
     image: postgres:17.2
@@ -62,7 +66,38 @@ services:
       timeout: 5s
       retries: 5
       start_period: 5s
-  
+
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio-data:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  minio-createbucket:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+        required: true
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://minio:9000 minioadmin minioadmin;
+      /usr/bin/mc mb myminio/horilla-data;
+      /usr/bin/mc anonymous set download myminio/horilla-data/staticfiles/;
+      exit 0;
+      "
+
   migrations:
     build:
       context: .
@@ -75,24 +110,27 @@ services:
       - .env.app.local
     entrypoint: ["/app/run_migrations.sh"]
 
-#  create_staticfiles:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile.dev
-#    depends_on:
-#      db:
-#        condition: service_healthy
-#        required: true
-#      migrations:
-#        condition: service_completed_successfully
-#        required: true
-#    volumes:
-#      - static-files:/app/staticfiles
-#    env_file:
-#      - .env.app.local
-#    entrypoint: ["/app/create_staticfiles.sh"]
+  create-staticfiles:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    depends_on:
+      db:
+        condition: service_healthy
+        required: true
+      migrations:
+        condition: service_completed_successfully
+        required: true
+      minio-createbucket:
+        condition: service_completed_successfully
+        required: true
+    volumes:
+      - static-files:/app/staticfiles
+    env_file:
+      - .env.app.local
+    entrypoint: ["/app/create_staticfiles.sh"]
     
-  create_admin_user:
+  create-admin-user:
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -109,5 +147,6 @@ services:
 
 volumes:
   horilla-data:
+  minio-data:
   static-files:
   media-files:
