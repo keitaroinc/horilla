@@ -1725,11 +1725,7 @@ def delete_profile_image(request, obj_id):
     candidate_obj = Candidate.objects.get(id=obj_id)
     try:
         if candidate_obj.profile:
-            file_path = candidate_obj.profile.path
-            absolute_path = os.path.join(settings.MEDIA_ROOT, file_path)
-            os.remove(absolute_path)
-            candidate_obj.profile = None
-            candidate_obj.save()
+            candidate_obj.profile.delete()
             messages.success(request, _("Profile image removed."))
     except Exception as e:
         pass
@@ -3404,13 +3400,13 @@ def view_file(request, id):
         "document": document_obj,
     }
     if document_obj.document:
-        file_path = document_obj.document.path
-        file_extension = os.path.splitext(file_path)[1][1:].lower()
+        file_path = document_obj.document.name
+        file_extension = file_path.split(".")[-1].lower()
 
         content_type = get_content_type(file_extension)
 
         try:
-            with open(file_path, "rb") as file:
+            with document_obj.document.open(mode="rb") as file:
                 file_content = file.read()
         except:
             file_content = None
