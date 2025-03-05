@@ -6,6 +6,7 @@ This module is used to register models for employee app
 """
 
 from datetime import date, datetime, timedelta
+from uuid import uuid4
 
 from django.apps import apps
 from django.conf import settings
@@ -46,6 +47,9 @@ def reporting_manager_validator(value):
     """
     return value
 
+def employee_uploads_filepath(instance, filename):
+    return "employee/{0}/{1}".format(uuid4(), filename)
+
 
 class Employee(models.Model):
     """
@@ -78,7 +82,7 @@ class Employee(models.Model):
         max_length=200, null=True, blank=True, verbose_name=_("Last Name")
     )
     employee_profile = models.ImageField(
-        upload_to="employee/profile", null=True, blank=True
+        upload_to=employee_uploads_filepath, null=True, blank=True
     )
     email = models.EmailField(max_length=254, unique=True)
     phone = models.CharField(
@@ -737,7 +741,7 @@ class EmployeeBankDetails(HorillaModel):
 
 
 class NoteFiles(HorillaModel):
-    files = models.FileField(upload_to="employee/NoteFiles", blank=True, null=True)
+    files = models.FileField(upload_to=employee_uploads_filepath, blank=True, null=True)
     objects = models.Manager()
 
     def __str__(self):
@@ -772,7 +776,7 @@ class PolicyMultipleFile(HorillaModel):
     PoliciesMultipleFile model
     """
 
-    attachment = models.FileField(upload_to="employee/policies")
+    attachment = models.FileField(upload_to=employee_uploads_filepath)
 
 
 class Policy(HorillaModel):
@@ -901,7 +905,7 @@ class DisciplinaryAction(HorillaModel):
     )
     start_date = models.DateField(null=True)
     attachment = models.FileField(
-        upload_to="employee/discipline", null=True, blank=True
+        upload_to=employee_uploads_filepath, null=True, blank=True
     )
     objects = HorillaCompanyManager("employee_id__employee_work_info__company_id")
 
