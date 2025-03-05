@@ -762,16 +762,14 @@ def view_file(request, id):
         "document": document_obj,
     }
     if document_obj.document:
-        file_path = document_obj.document.path
-        file_extension = os.path.splitext(file_path)[1][
-            1:
-        ].lower()  # Get the lowercase file extension
+        file_path = document_obj.document.name
+        file_extension = file_path.split(".")[-1].lower()
 
         content_type = get_content_type(file_extension)
 
         try:
-            with open(file_path, "rb") as file:
-                file_content = file.read()  # Decode the binary content for display
+            with document_obj.document.open(mode="rb") as file:
+                file_content = file.read()
         except:
             file_content = None
 

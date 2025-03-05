@@ -1,5 +1,6 @@
 import os
 from datetime import date
+from uuid import uuid4
 
 from django.apps import apps
 from django.db import models
@@ -27,6 +28,10 @@ FORMATS = [
     ("png", "PNG"),
     ("jpeg", "JPEG"),
 ]
+
+
+def documents_uploads_filepath(instance, filename):
+    return "employee/documents/{0}/{1}".format(uuid4(), filename)
 
 
 def document_create(instance):
@@ -70,7 +75,7 @@ class Document(HorillaModel):
     document_request_id = models.ForeignKey(
         DocumentRequest, on_delete=models.PROTECT, null=True
     )
-    document = models.FileField(upload_to="employee/documents", null=True)
+    document = models.FileField(upload_to=documents_uploads_filepath, null=True)
     status = models.CharField(choices=STATUS, max_length=10, default="requested")
     reject_reason = models.TextField(blank=True, null=True, max_length=255)
     issue_date = models.DateField(null=True, blank=True, verbose_name=_("Issue Date"))
