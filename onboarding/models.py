@@ -6,6 +6,7 @@ This module is used to register models for onboarding app
 """
 
 from datetime import datetime
+from uuid import uuid4
 
 from django.db import models
 from django.db.models.signals import post_save
@@ -17,6 +18,10 @@ from employee.models import Employee
 from horilla.models import HorillaModel
 from horilla_audit.models import HorillaAuditInfo, HorillaAuditLog
 from recruitment.models import Candidate, Recruitment
+
+
+def onboarding_uploads_filepath(instance, filename):
+    return "onboarding/{0}/{1}".format(uuid4(), filename)
 
 
 class OnboardingStage(HorillaModel):
@@ -187,7 +192,7 @@ class OnboardingPortal(HorillaModel):
     token = models.CharField(max_length=200)
     used = models.BooleanField(default=False)
     count = models.IntegerField(default=0)
-    profile = models.ImageField(upload_to="employee/profile", null=True, blank=True)
+    profile = models.ImageField(upload_to=onboarding_uploads_filepath, null=True, blank=True)
     objects = HorillaCompanyManager("candidate_id__recruitment_id__company_id")
 
     def __str__(self):

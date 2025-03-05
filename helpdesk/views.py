@@ -1149,13 +1149,11 @@ def view_ticket_document(request, doc_id):
         "document": document_obj,
     }
     if document_obj.file:
-        file_path = document_obj.file.path
-        file_extension = os.path.splitext(file_path)[1][
-            1:
-        ].lower()  # Get the lowercase file extension
+        file_path = document_obj.file.name
+        file_extension = file_path.split(".")[-1].lower()
         content_type = get_content_type(file_extension)
         try:
-            with open(file_path, "rb") as file:
+            with document_obj.file.open(mode="rb") as file:
                 file_content = file.read()  # Decode the binary content for display
         except:
             file_content = None

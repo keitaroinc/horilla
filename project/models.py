@@ -7,6 +7,7 @@ This module is used to register models for project app
 
 import datetime
 from datetime import date
+from uuid import uuid4
 
 from django.apps import apps
 from django.core.exceptions import ValidationError
@@ -22,6 +23,10 @@ from horilla.horilla_middlewares import _thread_locals
 from horilla_views.cbv_methods import render_template
 
 # Create your models here.
+
+
+def project_uploads_filepath(instance, filename):
+    return "project/{0}/{1}".format(uuid4(), filename)
 
 
 def validate_time_format(value):
@@ -69,7 +74,7 @@ class Project(models.Model):
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
     document = models.FileField(
-        upload_to="project/files", blank=True, null=True, verbose_name="Project File"
+        upload_to=project_uploads_filepath, blank=True, null=True, verbose_name="Project File"
     )
     is_active = models.BooleanField(default=True)
     description = models.TextField()
@@ -334,7 +339,7 @@ class Task(models.Model):
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     document = models.FileField(
-        upload_to="task/files", blank=True, null=True, verbose_name="Task File"
+        upload_to=project_uploads_filepath, blank=True, null=True, verbose_name="Task File"
     )
     is_active = models.BooleanField(default=True)
     description = models.TextField()

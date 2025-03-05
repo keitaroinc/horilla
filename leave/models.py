@@ -4,6 +4,7 @@ import math
 import operator
 import threading
 from datetime import date, datetime, timedelta
+from uuid import uuid4
 
 from dateutil.relativedelta import relativedelta
 from django.apps import apps
@@ -159,8 +160,12 @@ WEEK_DAYS = [
 ]
 
 
+def leave_uploads_filepath(instance, filename):
+    return "leave/{0}/{1}".format(uuid4(), filename)
+
+
 class LeaveType(HorillaModel):
-    icon = models.ImageField(null=True, blank=True, upload_to="leave/leave_icon")
+    icon = models.ImageField(null=True, blank=True, upload_to=leave_uploads_filepath)
     name = models.CharField(max_length=30, null=False)
     color = models.CharField(null=True, max_length=30)
     payment = models.CharField(max_length=30, choices=PAYMENT, default="unpaid")
@@ -556,7 +561,7 @@ class LeaveRequest(HorillaModel):
     attachment = models.FileField(
         null=True,
         blank=True,
-        upload_to="leave/leave_attachment",
+        upload_to=leave_uploads_filepath,
         verbose_name=_("Attachment"),
     )
     status = models.CharField(
@@ -985,7 +990,7 @@ class LeaveRequest(HorillaModel):
 
 
 class LeaverequestFile(models.Model):
-    file = models.FileField(upload_to="leave/request_files")
+    file = models.FileField(upload_to=leave_uploads_filepath)
 
 
 class LeaverequestComment(HorillaModel):
@@ -1013,7 +1018,7 @@ class LeaveAllocationRequest(HorillaModel):
     requested_date = models.DateField(default=timezone.now)
     description = models.TextField(max_length=255)
     attachment = models.FileField(
-        null=True, blank=True, upload_to="leave/leave_attachment"
+        null=True, blank=True, upload_to=leave_uploads_filepath
     )
     status = models.CharField(
         max_length=30, choices=LEAVE_ALLOCATION_STATUS, default="requested"
