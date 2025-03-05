@@ -9,6 +9,7 @@ import contextlib
 import datetime as dt
 import json
 from datetime import date, datetime, timedelta
+from uuid import uuid4
 
 from django.apps import apps
 from django.core.exceptions import ValidationError
@@ -42,6 +43,10 @@ _validate_time_in_minutes = validate_time_in_minutes
 
 
 # Create your models here.
+
+
+def attendance_uploads_filepath(instance, filename):
+    return "attendance/{0}/{1}".format(uuid4(), filename)
 
 
 class AttendanceActivity(HorillaModel):
@@ -564,7 +569,7 @@ class Attendance(HorillaModel):
 
 
 class AttendanceRequestFile(HorillaModel):
-    file = models.FileField(upload_to="attendance/request_files")
+    file = models.FileField(upload_to=attendance_uploads_filepath)
 
 
 class AttendanceRequestComment(HorillaModel):

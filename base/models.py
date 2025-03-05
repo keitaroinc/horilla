@@ -6,6 +6,7 @@ This module is used to register django models
 
 import ipaddress
 from datetime import datetime,date
+from uuid import uuid4
 
 import django
 from django.apps import apps
@@ -45,6 +46,10 @@ WEEK_DAYS = [
 ]
 
 
+def base_uploads_filepath(instance, filename):
+    return "base/{0}/{1}".format(uuid4(), filename)
+
+
 def validate_time_format(value):
     """
     this method is used to validate the format of duration like fields.
@@ -80,7 +85,7 @@ class Company(HorillaModel):
     city = models.CharField(max_length=50)
     zip = models.CharField(max_length=20)
     icon = models.FileField(
-        upload_to="base/icon",
+        upload_to=base_uploads_filepath,
         null=True,
     )
     objects = models.Manager()
@@ -822,7 +827,7 @@ class RotatingShiftAssign(HorillaModel):
 
 
 class BaserequestFile(models.Model):
-    file = models.FileField(upload_to="base/request_files")
+    file = models.FileField(upload_to=base_uploads_filepath)
     objects = models.Manager()
 
 
@@ -1468,7 +1473,7 @@ class Attachment(models.Model):
     Attachment model for multiple attachments in announcements.
     """
 
-    file = models.FileField(upload_to="attachments/")
+    file = models.FileField(upload_to=base_uploads_filepath)
 
     def __str__(self):
         return self.file.name

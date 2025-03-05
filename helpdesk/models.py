@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from uuid import uuid4
 
 from django import apps
 from django.db import models
@@ -41,6 +42,10 @@ TICKET_STATUS = [
     ("resolved", "Resolved"),
     ("canceled", "Canceled"),
 ]
+
+
+def helpdesk_uploads_filepath(instance, filename):
+    return "helpdesk/{0}/{1}".format(uuid4(), filename)
 
 
 class DepartmentManager(HorillaModel):
@@ -199,7 +204,7 @@ class Comment(HorillaModel):
 
 
 class Attachment(HorillaModel):
-    file = models.FileField(upload_to="Tickets/Attachment")
+    file = models.FileField(upload_to=helpdesk_uploads_filepath)
     description = models.CharField(max_length=100, blank=True, null=True)
     format = models.CharField(max_length=50, blank=True, null=True)
     ticket = models.ForeignKey(

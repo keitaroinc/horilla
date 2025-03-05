@@ -6,6 +6,7 @@ Used to register models
 import calendar
 import logging
 from datetime import date, datetime, timedelta
+from uuid import uuid4
 
 from django import forms
 from django.apps import apps
@@ -39,6 +40,10 @@ logger = logging.getLogger(__name__)
 
 
 # Create your models here.
+
+
+def payroll_uploads_filepath(instance, filename):
+    return "payroll/{0}/{1}".format(uuid4(), filename)
 
 
 def min_zero(value):
@@ -242,7 +247,7 @@ class Contract(HorillaModel):
         validators=[min_zero],
         verbose_name=_("Notice Period"),
     )
-    contract_document = models.FileField(upload_to="uploads/", null=True, blank=True)
+    contract_document = models.FileField(upload_to=payroll_uploads_filepath, null=True, blank=True)
     deduct_leave_from_basic_pay = models.BooleanField(
         default=True,
         verbose_name=_("Deduct From Basic Pay"),
@@ -1671,7 +1676,7 @@ class ReimbursementMultipleAttachment(models.Model):
     ReimbursementMultipleAttachement Model
     """
 
-    attachment = models.FileField(upload_to="payroll/reimbursements")
+    attachment = models.FileField(upload_to=payroll_uploads_filepath)
     objects = models.Manager()
 
 
@@ -1701,7 +1706,7 @@ class Reimbursement(HorillaModel):
         Employee, on_delete=models.PROTECT, verbose_name="Employee"
     )
     allowance_on = models.DateField()
-    attachment = models.FileField(upload_to="payroll/reimbursements", null=True)
+    attachment = models.FileField(upload_to=payroll_uploads_filepath, null=True)
     other_attachments = models.ManyToManyField(
         ReimbursementMultipleAttachment, blank=True, editable=False
     )
@@ -1896,7 +1901,7 @@ except:
 
 
 class ReimbursementFile(models.Model):
-    file = models.FileField(upload_to="payroll/request_files")
+    file = models.FileField(upload_to=payroll_uploads_filepath)
     objects = models.Manager()
 
 

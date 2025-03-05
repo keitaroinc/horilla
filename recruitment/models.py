@@ -32,6 +32,10 @@ from horilla_audit.models import HorillaAuditInfo, HorillaAuditLog
 # Create your models here.
 
 
+def recruitment_uploads_filepath(instance, filename):
+    return "recruitment/{0}/{1}".format(uuid4(), filename)
+
+
 def validate_mobile(value):
     """
     This method is used to validate the mobile number using regular expression
@@ -63,12 +67,6 @@ def validate_image(value):
     This method is used to validate the image
     """
     return value
-
-
-def candidate_photo_upload_path(instance, filename):
-    ext = filename.split(".")[-1]
-    filename = f"{instance.name.replace(' ', '_')}_{filename}_{uuid4()}.{ext}"
-    return os.path.join("recruitment/profile/", filename)
 
 
 class SurveyTemplate(HorillaModel):
@@ -336,7 +334,7 @@ class Candidate(HorillaModel):
         ("other", _("Other")),
     ]
     name = models.CharField(max_length=100, null=True, verbose_name=_("Name"))
-    profile = models.ImageField(upload_to=candidate_photo_upload_path, null=True)
+    profile = models.ImageField(upload_to=recruitment_uploads_filepath, null=True)
     portfolio = models.URLField(max_length=200, blank=True)
     recruitment_id = models.ForeignKey(
         Recruitment,
@@ -379,7 +377,7 @@ class Candidate(HorillaModel):
         verbose_name=_("Phone"),
     )
     resume = models.FileField(
-        upload_to="recruitment/resume",
+        upload_to=recruitment_uploads_filepath,
         validators=[
             validate_pdf,
         ],
@@ -669,7 +667,7 @@ class RejectedCandidate(HorillaModel):
 
 
 class StageFiles(HorillaModel):
-    files = models.FileField(upload_to="recruitment/stageFiles", blank=True, null=True)
+    files = models.FileField(upload_to=recruitment_uploads_filepath, blank=True, null=True)
 
     def __str__(self):
         return self.files.name.split("/")[-1]
@@ -798,7 +796,7 @@ class RecruitmentSurveyAnswer(HorillaModel):
     )
     answer_json = models.JSONField()
     attachment = models.FileField(
-        upload_to="recruitment_attachment", null=True, blank=True
+        upload_to=recruitment_uploads_filepath, null=True, blank=True
     )
     objects = HorillaCompanyManager(related_company_field="recruitment_id__company_id")
 
@@ -967,7 +965,7 @@ class InterviewSchedule(HorillaModel):
 
 class Resume(models.Model):
     file = models.FileField(
-        upload_to="recruitment/resume",
+        upload_to=recruitment_uploads_filepath,
         validators=[
             validate_pdf,
         ],
@@ -1021,7 +1019,7 @@ class CandidateDocument(HorillaModel):
     document_request_id = models.ForeignKey(
         CandidateDocumentRequest, on_delete=models.PROTECT, null=True
     )
-    document = models.FileField(upload_to="candidate/documents", null=True)
+    document = models.FileField(upload_to=recruitment_uploads_filepath, null=True)
     status = models.CharField(choices=STATUS, max_length=10, default="requested")
     reject_reason = models.TextField(blank=True, null=True, max_length=255)
 

@@ -1,5 +1,6 @@
 from collections.abc import Iterable
 from datetime import date, timedelta
+from uuid import uuid4
 
 from django.apps import apps
 from django.contrib.auth.models import User
@@ -19,6 +20,10 @@ from horilla_audit.models import HorillaAuditInfo, HorillaAuditLog
 from notifications.signals import notify
 
 # Create your models here.
+
+
+def offboarding_uploads_filepath(instance, filename):
+    return "offboarding/{0}/{1}".format(uuid4(), filename)
 
 
 class Offboarding(HorillaModel):
@@ -111,7 +116,7 @@ class OffboardingStageMultipleFile(HorillaModel):
     OffboardingStageMultipleFile
     """
 
-    attachment = models.FileField(upload_to="offboarding/attachments")
+    attachment = models.FileField(upload_to=offboarding_uploads_filepath)
 
 
 class OffboardingEmployee(HorillaModel):

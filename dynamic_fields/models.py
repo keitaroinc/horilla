@@ -1,4 +1,6 @@
 import logging, re
+from uuid import uuid4
+
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.db import models
@@ -12,6 +14,10 @@ from horilla_automations.methods.methods import get_model_class
 
 
 logger = logging.getLogger(__name__)
+
+
+def dynamic_uploads_filepath(instance, filename):
+    return "dynamic/{0}/{1}".format(uuid4(), filename)
 
 
 # Create your models here.
@@ -29,7 +35,7 @@ ARGS = {
     "2": {"default": 0},
     "3": {"default": None},
     "4": {"default": timezone.now},
-    "5": {"null": True, "upload_to": "media/dynamic_fields"},
+    "5": {"null": True, "upload_to": dynamic_uploads_filepath},
 }
 
 

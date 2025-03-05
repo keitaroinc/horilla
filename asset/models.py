@@ -4,6 +4,7 @@ Models for Asset Management System
 This module defines Django models to manage assets, their categories, assigning, and requests
 within an Asset Management System.
 """
+from uuid import uuid4
 
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -13,6 +14,10 @@ from base.horilla_company_manager import HorillaCompanyManager
 from base.models import Company
 from employee.models import Employee
 from horilla.models import HorillaModel
+
+
+def asset_uploads_filepath(instance, filename):
+    return "asset/{0}/{1}".format(uuid4(), filename)
 
 
 class AssetCategory(HorillaModel):
@@ -143,7 +148,7 @@ class AssetDocuments(HorillaModel):
         "AssetReport", related_name="documents", on_delete=models.CASCADE
     )
     file = models.FileField(
-        upload_to="asset/asset_report/documents/", blank=True, null=True
+        upload_to=asset_uploads_filepath, blank=True, null=True
     )
     objects = models.Manager()
 
@@ -159,7 +164,7 @@ class ReturnImages(HorillaModel):
     - image: A FileField for uploading the image file (optional).
     """
 
-    image = models.FileField(upload_to="asset/return_images/", blank=True, null=True)
+    image = models.FileField(upload_to=asset_uploads_filepath, blank=True, null=True)
 
 
 class AssetAssignment(HorillaModel):
