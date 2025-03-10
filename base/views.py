@@ -3881,7 +3881,7 @@ def work_type_request_update(request, work_type_request_id):
     if request.method == "POST":
         response = render(
             request,
-            "work_type_request/request_update_form.html",
+            "work_type_request/request_form.html",
             {
                 "form": form,
             },
@@ -3896,7 +3896,7 @@ def work_type_request_update(request, work_type_request_id):
                 response.content.decode("utf-8") + "<script>location.reload();</script>"
             )
 
-    return render(request, "work_type_request/request_update_form.html", {"form": form})
+    return render(request, "work_type_request/request_form.html", {"form": form})
 
 
 @login_required
