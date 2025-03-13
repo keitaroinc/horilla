@@ -176,6 +176,7 @@ from horilla.horilla_settings import (
     FILE_STORAGE,
     NO_PERMISSION_MODALS,
 )
+from horilla.settings import ENABLE_CHANGE_USERNAME_AND_PASSWORD
 from horilla.methods import get_horilla_model_class, remove_dynamic_url
 from horilla_audit.forms import HistoryTrackingFieldsForm
 from horilla_audit.models import AccountBlockUnblock, AuditTag, HistoryTrackingFields
@@ -841,6 +842,7 @@ def home(request):
         "last_day_of_week": last_day_of_week.strftime("%Y-%m-%d"),
         "charts": employee_charts.charts,
         "is_birthday": is_birthday,
+        "enabled_change_user_pass": ENABLE_CHANGE_USERNAME_AND_PASSWORD,
     }
 
     return render(request, "index.html", context)

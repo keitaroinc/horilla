@@ -92,8 +92,6 @@ urlpatterns = [
         name="employee-reset-password",
     ),
     path("reset-send-success", views.reset_send_success, name="reset-send-success"),
-    path("change-password", views.change_password, name="change-password"),
-    path("change-username", views.change_username, name="change-username"),
     path("logout", views.logout_user, name="logout"),
     path("settings", views.common_settings, name="settings"),
     path(
@@ -1070,3 +1068,7 @@ urlpatterns = [
 
 if settings.ENABLE_LOGIN:
     urlpatterns.insert(0, path("login/", views.login_user, name="login"))
+
+if settings.ENABLE_CHANGE_USERNAME_AND_PASSWORD:
+    urlpatterns.insert(0, path("change-password", views.change_password, name="change-password"))
+    urlpatterns.insert(0, path("change-username", views.change_username, name="change-username"))
