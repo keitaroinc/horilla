@@ -15,12 +15,14 @@
                 <li class="oh-dropdown__item">
                     <a href="/employee/employee-profile" class="oh-dropdown__link">{% trans "My Profile" %}</a>
                 </li>
-                <li class="oh-dropdown__item">
-                    <a href="/change-username" class="oh-dropdown__link">{% trans "Change Username" %}</a>
-                </li>
-                <li class="oh-dropdown__item">
-                    <a href="/change-password" class="oh-dropdown__link">{% trans "Change Password" %}</a>
-                </li>
+                {% if enabled_change_user_pass %}
+                    <li class="oh-dropdown__item">
+                        <a href="/change-username" class="oh-dropdown__link">{% trans "Change Username" %}</a>
+                    </li>
+                    <li class="oh-dropdown__item">
+                        <a href="/change-password" class="oh-dropdown__link">{% trans "Change Password" %}</a>
+                    </li>
+                {% endif %}
             {% endif %}
         </ul>
         <hr />

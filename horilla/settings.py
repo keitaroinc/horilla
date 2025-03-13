@@ -34,6 +34,7 @@ TIME_ZONE=os.getenv("TIME_ZONE", "Europe/Stockholm")
 # Route settings enables routes such as /login /admin ...
 ENABLE_ADMIN=eval(os.getenv("ENABLE_ADMIN", True))
 ENABLE_LOGIN=eval(os.getenv("ENABLE_LOGIN", True))
+ENABLE_CHANGE_USERNAME_AND_PASSWORD=eval(os.getenv("ENABLE_CHANGE_USERNAME_AND_PASSWORD", True))
 
 # Database credentials
 DATABASE_URL=os.getenv("DATABASE_URL", "postgres://horilla:password@localhost:5432/horilla_main")
