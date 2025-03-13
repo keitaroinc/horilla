@@ -37,6 +37,7 @@ from horilla.methods import get_horilla_model_class
 from horilla.models import HorillaModel
 from horilla_audit.methods import get_diff
 from horilla_audit.models import HorillaAuditInfo, HorillaAuditLog
+from horilla.settings import ENABLE_CHANGE_USERNAME_AND_PASSWORD
 
 # create your model
 
@@ -505,11 +506,14 @@ class Employee(models.Model):
             username = self.email
             password = self.phone
 
-            is_new_employee_flag = (
-                not employee.employee_user_id.is_new_employee
-                if employee.employee_user_id
-                else True
-            )
+            if ENABLE_CHANGE_USERNAME_AND_PASSWORD:
+                is_new_employee_flag = (
+                    not employee.employee_user_id.is_new_employee
+                    if employee.employee_user_id
+                    else True
+                )
+            else:
+                is_new_employee_flag = False
             user = User.objects.create_user(
                 username=username,
                 email=username,
