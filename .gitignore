@@ -108,6 +108,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.env.app.prod
 
 # Spyder project settings
 .spyderproject
@@ -137,16 +138,17 @@ dmypy.json
 # media file
 media/
 
-#collected static files
+# collected static files
 staticfiles/
 
-#node_modules
+# node_modules
 node_modules/
 
-#whoosh folder
+# whoosh folder
 whoosh_index/
 
-#VSCode
+# VSCode
 .vscode/
 
-.env.app.prod
+# PyCharm
+.idea/
