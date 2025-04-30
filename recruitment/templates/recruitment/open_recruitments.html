@@ -9,37 +9,133 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{{white_label_company_name}}{% trans " - Open Recruitments" %}</title>
+        <meta name="description" content="We empower businesses, governments and civil society around the world, with open-source technologies" />
         <link rel="apple-touch-icon" sizes="180x180" href="{% if white_label_company.icon %}{{white_label_company.icon.url}} {% else %}{% static 'favicons/apple-touch-icon.png' %}{% endif %}">
         <link rel="icon" type="image/png" sizes="32x32" href="{% if white_label_company.icon %}{{white_label_company.icon.url}} {% else %}{% static 'favicons/favicon-32x32.png' %}{% endif %}">
         <link rel="icon" type="image/png" sizes="16x16" href="{% if white_label_company.icon %}{{white_label_company.icon.url}} {% else %}{% static 'favicons/favicon-16x16.png' %}{% endif %}">
         <link rel="stylesheet" href="{% static "/build/css/style.min.css" %}" />
+        <link rel="stylesheet" href="{% static "/css/recruitment.css" %}" />
     </head>
 
     <body>
         <div id="main">
-            <div class="oh-wrapper mt-4 ">
-                {% if request.user.is_authenticated %}
-                <div class="oh-wrapper">
+            <div class="bg-recruitment d-flex flex-column align-items-center">
+                <div class="oh-wrapper mt-4">
+                    {% if request.user.is_authenticated %}
                     <div class="oh-wrapper">
-                        <div class="oh-wrapper" style="font-size: xx-large; cursor: pointer;">
-                            {% if request.path not in request.META.HTTP_REFERER %}
-                            <a href="{{ request.META.HTTP_REFERER }}">
-                                <ion-icon name="arrow-back-outline"></ion-icon>
-                            </a>
-                            {% else %}
-                            <a href="/">
-                                <ion-icon name="arrow-back-outline"></ion-icon>
-                            </a>
-                            {% endif %}
+                        <div class="oh-wrapper">
+                            <div class="oh-wrapper" style="font-size: xx-large; cursor: pointer;">
+                                {% if request.path not in request.META.HTTP_REFERER %}
+                                <a class="btn btn-link link-light" href="{{ request.META.HTTP_REFERER }}">
+                                    <ion-icon name="arrow-back-outline"></ion-icon>
+                                </a>
+                                {% else %}
+                                <a class="btn btn-link link-light" href="/">
+                                    <ion-icon name="arrow-back-outline"></ion-icon>
+                                </a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
-                {% endif %}
+                <a class="btn mt-3 btn-link" href="https://www.keitaro.com/"><img class="company-logo img-fluid" src="{% static "/images/company-logo.png" %}" alt="White color version of the company logo" /></a>
+                <div class="container text-light flex-fill d-flex flex-column gap-3 justify-content-center align-items-center mb-5">
+                    <h1 class="display-4">Join Our Team!</h1>
+                    <p class="h4 fw-light">We're expanding quickly and continuously seeking outstanding individuals like you.</p>
+                </div>
+                <div class="text-light my-5 fs-3">
+                    <ion-icon name="arrow-down-outline"></ion-icon>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row my-5">
+                    <div class="col-md-8 offset-md-2 py-5">
+                        <section id="why-company">
+                            <h2 class="h1 text-center mb-5">Why Keitaro?</h2>
+                            <p>We're expanding quickly and continuously seeking outstanding individuals like you. Whether you're a junior or a senior, we at Keitaro believe that every person has a unique talent and potential. If you are the right cultural fit we can achieve great things together.</p>
+                            <p>We consistently put the needs of the employees first, and we also believe that having a comfortable workplace benefits everyone.</p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6 d-flex flex-column justify-content-center bg-primary">
+                        <section id="workspace-culture" class="py-5">
+                            <div class="row">
+                                <div class="col-md-8 offset-md-2 py-5 text-light">
+                                    <h2 class="h1 text-center mb-5">Workspace & Culture</h2>
+                                    <p>Thanks to our vibrant working environment, we remain energised, driven and united in our passion for big ideas. Our focus on performance encourages each team member to push themselves and reach new milestones every day.</p>
+                                    <p>We also encourage and motivate our team to support the wider tech community, through transparency and through our open-source contributions as well.</p>
+                                    <p>As a team and as individuals, we strive to learn and grow on a personal and professional level. Side-by-side, we deliver results, and of course, have lots of fun too!</p>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="col-md-6 bg-company-photo"></div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row my-5">
+                    <div class="col-md-8 offset-md-2 py-5">
+                        <section id="benefits">
+                            <h2 class="h1 text-center mb-5">Benefits</h2>
+                            <dl>
+                                <dt>100% Remote Work</dt>
+                                <dd>Work from one of our offices, or anywhere else you like!</dd>
+                            </dl>
+                            <dl>
+                                <dt>Flexible Working Hours</dt>
+                                <dd>Make your own functional schedule!</dd>
+                            </dl>
+                            <dl>
+                                <dt>Career & Personal Development</dt>
+                                <dd>Learn more by attending courses and conferences.</dd>
+                            </dl>
+                            <dl>
+                                <dt>Team Activities</dt>
+                                <dd>Attend our Hackathons, Meetups, Kspresso sessions and after-work hangouts.</dd>
+                            </dl>
+                            <dl class="mb-0">
+                                <dt>FitKit</dt>
+                                <dd>Workout or relax in the best gyms and spa centers.</dd>
+                            </dl>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid bg-secondary py-5">
+                <div class="row">
+                    <div class="col-md-10 offset-md-1">
+                        <section id="locations" class="py-5">
+                            <h2 class="h1 text-center pb-5">Locations</h2>
+                            <div class="row gap-5 row-cols-1 row-cols-md-5 justify-content-center">
+                                <div class="col">
+                                    <h2><a class="link-primary" href="https://maps.app.goo.gl/t3JyiRp3EEmqDRgz5" target="_blank" rel="noopener">Skopje</a></h2>
+                                    <address>Boulevard Saint Clement of Ohrid 30,<br>1000 Skopje, North Macedonia</address>
+                                </div>
+                                <div class="col">
+                                    <h2><a class="link-primary" href="https://maps.app.goo.gl/xs3NyGwvNUuiSrgcA" target="_blank" rel="noopener">Bitola</a></h2>
+                                    <address>Pelagonka 2,<br>7000 Bitola, North Macedonia</address>
+                                </div>
+                                <div class="col">
+                                    <h2><a class="link-primary" href="https://maps.app.goo.gl/aEv7PuWCLFqfgYsu7" target="_blank" rel="noopener">Malmö</a></h2>
+                                    <address>Transportvägen 6,<br>246 42 Löddeköpinge, Sweden</address>
+                                </div>
+                                <div class="col">
+                                    <h2><a class="link-primary" href="https://maps.app.goo.gl/KmJWtNKZbJgaPy2F7" target="_blank" rel="noopener">Ohrid</a></h2>
+                                    <address>Dimitar Vlahov 1,<br>6000 Ohrid, North Macedonia</address>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
             </div>
             <main class="oh-onboarding">
                 <div class=" oh-job__page-container">
                     <div class="oh-joblisting__title-container">
-                        <h1 class="oh-onboarding-card__title oh-onboarding-card__title--h1 text-center mb-3">
+                        <h1 class="h1 text-center mb-5">
                             {% trans "Open Job Listings" %}
                         </h1>
                         <p class="oh-onboarding__content text-center w-50 m-auto">
@@ -123,7 +219,34 @@
         <script src="{% static "build/js/web.frontend.min.js" %}"></script>
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-        <script></script>
+        <script>
+            // TO DO: Replace hard-coded kitId with an environment variable
+            (function (d) {
+                var config = {
+                  kitId: 'eaz5jri',
+                  scriptTimeout: 3000,
+                  async: true
+                },
+                        h = d.documentElement, t = setTimeout(function () {
+                          h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+                        }, config.scriptTimeout), tk = d.createElement("script"), f = false, s = d.getElementsByTagName("script")[0], a;
+                h.className += " wf-loading";
+                tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+                tk.async = true;
+                tk.onload = tk.onreadystatechange = function () {
+                  a = this.readyState;
+                  if (f || a && a != "complete" && a != "loaded")
+                    return;
+                  f = true;
+                  clearTimeout(t);
+                  try {
+                    Typekit.load(config)
+                  } catch (e) {
+                  }
+                };
+                s.parentNode.insertBefore(tk, s);
+              })(document);
+        </script>
     </body>
 
 </html>
