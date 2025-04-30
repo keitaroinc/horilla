@@ -1,0 +1,58 @@
+:root {
+    --bs-primary: #00a841;
+    --bs-secondary: #f2f2f2;
+}
+
+body {
+    font: normal 1.3rem/1.4 futura-pt,sans-serif
+}
+
+.bg-recruitment {
+    --bg-shade: rgba(0,0,0, 65%);
+    background-image: linear-gradient(var(--bg-shade), var(--bg-shade)), url(../images/bg-recruitment.webp);
+    background-size: cover;
+    min-height: 100vh;
+}
+
+.bg-company-photo {
+    background-image: url(../images/company-photo.webp);
+    background-size: cover;
+    background-position-y: 75%;
+    min-height: 50vh;
+}
+
+.company-logo {
+    max-height: 4rem;
+}
+
+.bg-primary {
+    background-color: var(--bs-primary) !important;
+}
+
+.bg-secondary {
+    background-color: var(--bs-secondary) !important;
+}
+
+.link-primary {
+    color: var(--bs-primary) !important;
+}
+
+.oh-apply_btn {
+    border-color: var(--bs-primary);
+    color: var(--bs-primary);
+
+    &:hover {
+        background-color: var(--bs-primary);
+    }
+}
+
+.oh-onboarding-card--top-bar:before,
+.oh-onboarding-preview--top-bar:before,
+.oh-job__description-list .oh-job__description-list_item:before {
+    background-color: var(--bs-primary);
+}
+
+.oh-recuritment_tag {
+    background-color: var(--bs-light);
+    color: var(--bs-primary);
+}
