@@ -38,8 +38,11 @@ RUN pip install --no-index --find-links=/wheels -r requirements.txt && \
 # Create a local user and group to run the app
 RUN groupadd -g 1007 -r app && \
     useradd -u 1006 -d /app -M -r -g app app && \
-    mkdir /app/staticfiles && \
+    mkdir -p /app/staticfiles/static/images/ui && \
     chown -R app:app /usr/local/lib/python3.12/site-packages
+
+
+COPY ./static/images/ui/horilla-logo.png /app/staticfiles/images/ui/horilla-logo.png
 
 COPY . .
 
