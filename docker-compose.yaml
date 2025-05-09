@@ -49,7 +49,7 @@ services:
 
   db:
     image: postgres:17.2
-    environment:                                                                                                                                                                    
+    environment:
        POSTGRES_DB: horilla
        POSTGRES_USER: postgres
        POSTGRES_PASSWORD: postgres
@@ -129,7 +129,7 @@ services:
     env_file:
       - .env.app.local
     entrypoint: ["/app/create_staticfiles.sh"]
-    
+
   create-admin-user:
     build:
       context: .
