@@ -241,13 +241,23 @@ def login_required(view_func):
         request.session["title"] = res
         if path == "" or path == "/":
             request.session["title"] = "Dashboard".upper()
-        if not request.user.is_authenticated:
-            login_url = LOGIN_URL
-            params = urlencode(request.GET)
-            url = f"{login_url}?next={request.path}"
-            if params:
-                url += f"&{params}"
-            return redirect(url)
+
+        login_url = LOGIN_URL
+        query_string = urlencode(request.GET)
+        redirect_url = f"{login_url}?next={request.path}"
+
+        if query_string:
+            redirect_url += f"&{query_string}"
+
+        employee = getattr(request.user, "employee_get", None)
+
+        if (
+            not request.user.is_authenticated
+            or not request.user.is_active
+            or not employee
+            or not employee.is_active
+        ):
+            return redirect(redirect_url)
         try:
             func = view_func(request, *args, **kwargs)
         except Exception as e:
