@@ -1,5 +1,5 @@
 from django.contrib.auth.models import Group
-from django.urls import path
+from django.urls import path, re_path
 from django.utils.translation import gettext_lazy as _
 
 from base import announcement, request_and_approve, views
@@ -92,6 +92,8 @@ urlpatterns = [
         name="employee-reset-password",
     ),
     path("reset-send-success", views.reset_send_success, name="reset-send-success"),
+    path("two-factor", views.two_factor_auth, name="two-factor"),
+    path("send-otp", views.send_otp, name="send-otp"),
     path("logout", views.logout_user, name="logout"),
     path("settings", views.common_settings, name="settings"),
     path(
@@ -1077,3 +1079,7 @@ if settings.ENABLE_LOGIN:
 if settings.ENABLE_CHANGE_USERNAME_AND_PASSWORD:
     urlpatterns.insert(0, path("change-password", views.change_password, name="change-password"))
     urlpatterns.insert(0, path("change-username", views.change_username, name="change-username"))
+
+urlpatterns.append(
+    re_path(r"^media/(?P<path>.*)$", views.protected_media, name="protected_media"),
+)
